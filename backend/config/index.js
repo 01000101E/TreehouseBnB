@@ -8,4 +8,6 @@ module.exports = {
   }
 };
 
-// for the commit "Add an API router"
+// phase 1 message: "Add an API router"
+
+// phase 2 message: "Add error-handling middleware for common errors and debugging"
