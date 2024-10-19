@@ -1,46 +1,47 @@
 'use strict';
 
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('spot_images', {
+    await queryInterface.createTable('SpotImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       spotId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
-          model: 'spots', // Name of the referenced table
-          key: 'id',
+          model: 'Spots',
+          key: 'id'
         },
-        onDelete: 'CASCADE', // Ensures the image gets deleted when the spot is deleted
-        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       url: {
-        allowNull: false,
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING
       },
       preview: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-    });
+        type: Sequelize.DATE
+      }
+    }, options);
   },
-
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('spot_images');
-  },
+    options.tableName = "SpotImages"
+    return queryInterface.dropTable(options);
+  }
 };

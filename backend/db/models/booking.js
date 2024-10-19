@@ -1,66 +1,49 @@
 'use strict';
-
-const { Model, Validator } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Booking extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-      // Define associations here
+      // define association here
       Booking.belongsTo(models.User, {
-        foreignKey: 'userId',
-        as: 'User',
+        foreignKey: 'userId'
       });
+
       Booking.belongsTo(models.Spot, {
-        foreignKey: 'spotId',
-        as: 'Spot',
-      });
+        foreignKey: 'spotId'
+      })
     }
   }
-
-  Booking.init(
-    {
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          isInt: true,
-        },
-      },
-      spotId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          isInt: true,
-        },
-      },
-      startDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        validate: {
-          isDate: true,
-        },
-      },
-      endDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        validate: {
-          isDate: true,
-          isAfter(value) {
-            if (new Date(value) <= new Date(this.startDate)) {
-              throw new Error('End date must be after start date.');
-            }
-          },
-        },
-      },
+  Booking.init({
+    spotId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isAfter: DataTypes.NOW,
+      }
     },
-    {
-      sequelize,
-      modelName: 'Booking',
-      tableName: 'Bookings',
-      underscored: true,
-      timestamps: true,
-    }
-  );
-
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        afterStart(value) {
+          if (value <= this.startDate) {
+            throw Error ('End date must be after start date.')
+          }
+        }
+      }
+    },
+  }, {
+    sequelize,
+    modelName: 'Booking',
+  });
   return Booking;
 };
