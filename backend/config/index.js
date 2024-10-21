@@ -7,10 +7,3 @@ module.exports = {
     expiresIn: process.env.JWT_EXPIRES_IN
   }
 };
-
-// phase 0 message: 
-
-// phase 1 message: "Add an API router"
-
-// phase 2 message: "Add error-handling middleware for common errors and debugging"
-
