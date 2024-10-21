@@ -2,7 +2,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3"
   },
-  "name": "vacay-project",
+  "name": "treehousebnb",
   "version": "1.0.0",
   "description": "add render link here",
   "main": "index.js",

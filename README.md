@@ -1,12 +1,68 @@
 # TreehouseBnB
 
-add render link here 
+https://dashboard.render.com/web/srv-cs66r9dumphs73b5iao0
 
 ## Database Schema Design
 
 ![db-schema]
 
 [db-schema]: ./images/dbschema-8.29.24.png
+
+<!-- 
+Table users {
+  id integer [pk, increment]
+  firstName varchar(50) [not null]
+  lastName varchar(50) [not null]
+  email varchar(100) [not null, unique]
+  username varchar(50) [not null, unique]
+  password varchar(255) [not null]
+  createdAt timestamp [default: 'CURRENT_TIMESTAMP']
+  updatedAt timestamp [default: 'CURRENT_TIMESTAMP']
+}
+
+Table spots {
+  id integer [pk, increment]
+  ownerId integer [not null, ref: > users.id]
+  address varchar(255) [not null]
+  city varchar(100) [not null]
+  state varchar(100) [not null]
+  country varchar(100) [not null]
+  lat decimal(9, 6) [not null]
+  lng decimal(9, 6) [not null]
+  name varchar(100) [not null]
+  description text [not null]
+  price decimal(10, 2) [not null]
+  createdAt timestamp [default: 'CURRENT_TIMESTAMP']
+  updatedAt timestamp [default: 'CURRENT_TIMESTAMP']
+}
+
+Table spot_images {
+  id integer [pk, increment]
+  spotId integer [not null, ref: > spots.id]
+  url varchar(255) [not null]
+  preview boolean [not null]
+}
+
+Table reviews {
+  id integer [pk, increment]
+  userId integer [not null, ref: > users.id]
+  spotId integer [not null, ref: > spots.id]
+  review text [not null]
+  stars integer [not null]
+  createdAt timestamp [default: 'CURRENT_TIMESTAMP']
+  updatedAt timestamp [default: 'CURRENT_TIMESTAMP']
+}
+
+Table bookings {
+  id integer [pk, increment]
+  userId integer [not null, ref: > users.id]
+  spotId integer [not null, ref: > spots.id]
+  startDate date [not null]
+  endDate date [not null]
+  createdAt timestamp [default: 'CURRENT_TIMESTAMP']
+  updatedAt timestamp [default: 'CURRENT_TIMESTAMP']
+} -->
+
 
 ## API Documentation
 
@@ -54,7 +110,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: false
 * Request
   * Method: GET
-  * Route path: /api/session
+  * Route path: /api/users/session
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -101,10 +157,19 @@ information.
   * Body:
 
     ```json
+    
     {
-      "credential": "john.smith@gmail.com",
-      "password": "secret password"
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "username": "JohnSmith"
+      }
+      <!-- "credential": "john.smith@gmail.com",
+      "password": "secret password" -->
     }
+    
     ```
 
 * Successful Response
@@ -168,11 +233,13 @@ user's information.
 
     ```json
     {
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "username": "JohnSmith",
-      "password": "secret password"
+      "user": {
+        "id": 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "username": "JohnSmith"
+      }
     }
     ```
 
@@ -1445,3 +1512,7 @@ Return spots filtered by query parameters.
       }
     }
     ```
+
+
+
+
