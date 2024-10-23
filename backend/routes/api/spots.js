@@ -347,7 +347,7 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         }
     })
 
-    console.log(spotReviews);
+    // console.log(spotReviews);
 
     if (spotReviews.length) {
         res.status(500);
