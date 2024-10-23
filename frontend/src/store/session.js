@@ -103,7 +103,7 @@ export const restoreUser = () => async (dispatch) => {
   }
   }
 
-export const signUp = (user) => async (dispatch) => {
+export const signup = (user) => async (dispatch) => {
   const { username, firstName, lastName, email, password } = user;
   const res = await csrfFetch("/api/users", {
     method: "POST",
