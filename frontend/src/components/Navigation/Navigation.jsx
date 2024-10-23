@@ -1,39 +1,38 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import OpenModalButton from '../OpenModalButton';
-import LoginFormModal from '../LoginFormModal';
-import './Navigation.css';
+import ProfileButtonLoggedOut from './ProfileButtonLoggedOut';
+import { SiAirbnb } from "react-icons/si";
+import './Navigation.css'
 
-function Navigation({ isLoaded }) {
-  const sessionUser = useSelector((state) => state.session.user);
+const Navigation = ({ isLoaded }) => {
 
-  const sessionLinks = sessionUser ? (
-    <li>
-      <ProfileButton user={sessionUser} />
-    </li>
-  ) : (
-    <>
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-      </li>
-      <li>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </li>
-    </>
-  );
+    const currUser = useSelector((state) => state.session.user);
 
-  return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
-  );
-}
+    const sessionLinks = currUser ? (
+      <ul className='navbar-right'>
+          <li>
+            <NavLink to='/spots/new' id='create-spot-link'>Create a New Spot</NavLink>
+          </li>
+          <li>
+            <ProfileButton user={currUser} />
+          </li>
+      </ul>
+      ) : (
+        <>
+          <ProfileButtonLoggedOut />
+        </>
+      );
 
-export default Navigation;
+      return (
+        <ul className='navbar'>
+          <li className='home-container'>
+            <SiAirbnb id='logo'/>
+            <NavLink to="/" id='home-button'>prisbnb</NavLink>
+          </li>
+          {isLoaded && sessionLinks}
+        </ul>
+      );
+    }
+
+export default Navigation
